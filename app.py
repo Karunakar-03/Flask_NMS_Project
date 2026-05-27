@@ -7,7 +7,7 @@ from stoken import endata,dndata #used to sign data passing through url
 from mysql.connector import (connection) #used to connect Mysql server
 import flask_excel as excel
 import re
-mydb=connection.MySQLConnection(user='root', password='Karunakar@420',host='localhost',database='snm')
+mydb=connection.MySQLConnection(user='flaskuser', password='password',host='localhost',database='flaskdb')
 app=Flask(__name__)
 excel.init_excel(app)
 app.secret_key='karunakar'
@@ -502,4 +502,4 @@ def search():
         flash('Something went Wrong')
         return redirect(url_for('dashboard'))
 if __name__=='__main__':
-    app.run(debug=True,use_reloader=True)
+    app.run()
