@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Update Notes</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins', sans-serif;
+        }
+
+        body{
+            background:#f4f4f4;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar{
+            width:100%;
+            background:#111827;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:15px 40px;
+        }
+
+        .nav-left{
+            display:flex;
+            align-items:center;
+            gap:40px;
+        }
+
+        .logo{
+            font-size:28px;
+            font-weight:bold;
+            color:white;
+        }
+
+        .logo span{
+            color:#38bdf8;
+        }
+
+        .menu{
+            display:flex;
+            gap:20px;
+        }
+
+        .dropdown{
+            position:relative;
+        }
+
+        .dropbtn{
+            background:none;
+            border:none;
+            color:white;
+            font-size:16px;
+            cursor:pointer;
+        }
+
+        .dropdown-content{
+            display:none;
+            position:absolute;
+            background:white;
+            min-width:220px;
+            border-radius:8px;
+            overflow:hidden;
+            top:35px;
+            box-shadow:0px 0px 10px gray;
+            z-index:1;
+        }
+
+        .dropdown-content a{
+            display:block;
+            padding:12px;
+            text-decoration:none;
+            color:#333;
+            transition:0.3s;
+        }
+
+        .dropdown-content a:hover{
+            background:#f2f2f2;
+        }
+
+        .dropdown:hover .dropdown-content{
+            display:block;
+        }
+
+        .nav-right{
+            display:flex;
+            align-items:center;
+            gap:15px;
+        }
+
+        .welcome{
+            color:white;
+            font-size:16px;
+        }
+
+        .search-box input{
+            padding:10px;
+            border:none;
+            border-radius:5px;
+            width:220px;
+        }
+
+        .search-btn{
+            padding:10px 18px;
+            border:none;
+            background:#38bdf8;
+            color:white;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        .logout-btn{
+            padding:10px 18px;
+            border:none;
+            background:red;
+            color:white;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        .logout-btn:hover{
+            background:darkred;
+        }
+
+        /* ================= FORM ================= */
+
+        .container{
+            width:40%;
+            margin:auto;
+            margin-top:60px;
+            background:white;
+            padding:35px;
+            border-radius:10px;
+            box-shadow:0px 0px 10px rgba(0,0,0,0.2);
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:25px;
+            color:#111827;
+        }
+
+        label{
+            font-size:18px;
+            font-weight:500;
+        }
+
+        input,
+        textarea{
+            width:100%;
+            padding:12px;
+            margin-top:10px;
+            margin-bottom:20px;
+            border:1px solid #ccc;
+            border-radius:5px;
+            outline:none;
+        }
+
+        textarea{
+            resize:none;
+        }
+
+        .add-btn{
+            width:100%;
+            padding:12px;
+            border:none;
+            background:green;
+            color:white;
+            font-size:18px;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        .add-btn:hover{
+            background:darkgreen;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="nav-left">
+
+            <div class="logo">
+                My<span>Portal</span>
+            </div>
+
+            <div class="menu">
+
+                <!-- NOTES MODULE -->
+
+                <div class="dropdown">
+
+                    <button class="dropbtn">
+                        Notes Module ▼
+                    </button>
+
+                    <div class="dropdown-content">
+
+                        <a href="{{ url_for('addnotes') }}">
+                            ➕ Add Notes
+                        </a>
+
+                        <a href="#">
+                            📄 View All Notes
+                        </a>
+
+                        <a href="#">
+                            📊 Get Excel Data
+                        </a>
+s
+                    </div>
+
+                </div>
+
+                <!-- FILES MODULE -->
+
+                <div class="dropdown">
+
+                    <button class="dropbtn">
+                        Files Module ▼
+                    </button>
+
+                    <div class="dropdown-content">
+
+                        <a href="#">
+                            📤 Upload File
+                        </a>
+
+                        <a href="#">
+                            📁 View All Files
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="nav-right">
+
+            <div class="welcome">
+                Welcome, {{ session.get('user') }}
+            </div>
+
+            <div class="search-box">
+                <input type="text" placeholder="Search notes or files...">
+            </div>
+
+            <button class="search-btn">
+                Search
+            </button>
+
+            <a href="{{ url_for('logout') }}">
+
+                <button class="logout-btn">
+                    Logout
+                </button>
+
+            </a>
+
+        </div>
+
+    </nav>
+
+    <!-- ================= ADD NOTES FORM ================= -->
+
+    <div class="container">
+
+        <h1>Add Notes</h1>
+
+        <form method="POST">
+
+            <label>Title</label>
+
+            <input type="text"
+                name="title"
+                value="{{storednotesdata[1]}}"
+                >
+            <label>Description</label>
+            <textarea name="description"
+                    rows="6"
+                    >{{storednotesdata[2]}}</textarea>
+
+            <button type="submit" class="add-btn">
+                Update Note
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>
